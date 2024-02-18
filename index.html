@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Explorer - Underwater World</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.0.8/aframe/build/aframe-ar.js"></script>
+</head>
+<body>
+    <a-scene embedded arjs="sourceType: webcam;">
+        <!-- AR Mode -->
+        <a-marker preset="custom" type="pattern" url="marker.patt">
+            <!-- Tambahkan elemen AR sesuai kebutuhan -->
+            <a-entity position="0 0 0" rotation="0 45 0">
+                <a-box color="blue" scale="1 1 1" animation="property: rotation; to: 0 360 0; loop: true; dur: 2000;"></a-box>
+            </a-entity>
+        </a-marker>
+
+        <!-- VR Mode -->
+        <a-entity id="vr-mode" visible="false">
+            <!-- Tambahkan elemen VR sesuai kebutuhan -->
+            <a-sphere color="green" position="0 1.5 -3" animation__spin="property: rotation; to: 0 360 0; loop: true; dur: 2000;"></a-sphere>
+        </a-entity>
+
+        <!-- Tombol untuk Beralih Mode -->
+        <a-entity position="-2 2 -4" rotation="0 45 0">
+            <a-box color="red" scale="1 1 1" animation__color="property: material.color; to: yellow; loop: true; dur: 1000;" cursor-listener></a-box>
+        </a-entity>
+        
+        <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+        // Fungsi untuk beralih antara mode VR dan AR
+        function toggleMode() {
+            var vrMode = document.getElementById('vr-mode');
+            vrMode.setAttribute('visible', !vrMode.getAttribute('visible'));
+        }
+
+        // Tambahkan listener untuk tombol beralih mode
+        AFRAME.registerComponent('cursor-listener', {
+            init: function () {
+                var el = this.el;
+                el.addEventListener('click', function () {
+                    toggleMode();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
